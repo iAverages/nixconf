@@ -3,4 +3,5 @@
 
   programs.git.enable = true;
   programs.jujutsu.enable = true;
+  programs.zsh.enable = true;
 }

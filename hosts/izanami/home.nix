@@ -40,13 +40,14 @@
     jujutsu.enable = true;
     gh.enable = true;
     starship.enable = true;
-    atuin.enable = true;
     direnv.enable = true;
     nh.enable = true;
     cargo.enable = true;
     fastfetch.enable = true;
     opencode.enable = true;
     herdr.enable = true;
+    zsh.enable = true;
+    tmux.enable = true;
     yt-dlp.enable = true;
     ghostty.enable = true;
     chromium.enable = true;

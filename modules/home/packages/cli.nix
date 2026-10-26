@@ -15,22 +15,17 @@ in {
       ripgrep
       fd
       killall
-      fzf
       stow
       unzip
       inotify-tools
       uutils-coreutils-noprefix
       wget
-      eza
       dust
-      bat
       btop
-      tmux
       tig
       delta
       tokei
       hyperfine
-      neovim
       tree-sitter
 
       # development

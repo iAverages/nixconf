@@ -1,7 +1,6 @@
 {
   imports = [
     ./alacritty.nix
-    ./atuin.nix
     ./cargo.nix
     ./chromium.nix
     ./direnv.nix
@@ -14,7 +13,9 @@
     ./nh.nix
     ./opencode.nix
     ./starship.nix
+    ./tmux.nix
     ./vesktop.nix
     ./yt-dlp.nix
+    ./zsh.nix
   ];
 }

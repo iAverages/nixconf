@@ -20,7 +20,7 @@
       |> (names: nixpkgs.lib.filter (name: nixpkgs.lib.filesystem.pathIsDirectory (hostsPath + "/${name}")) names);
 
     homeHosts = nixpkgs.lib.filter (hostname: builtins.pathExists (hostsPath + "/${hostname}/home.nix")) hosts;
-    nixosHomeHosts = ["kurumi"];
+    nixosHomeHosts = ["kurumi" "takina"];
     standaloneHomeHosts = nixpkgs.lib.subtractLists nixosHomeHosts homeHosts;
 
     homeModules = [

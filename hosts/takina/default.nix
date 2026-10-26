@@ -1,10 +1,17 @@
-{config, ...}: {
+{
+  config,
+  pkgs,
+  ...
+}: {
   imports = [
     ./disko.nix
     ./hardware-configuration.nix
   ];
 
   dan = true;
+
+  programs.zsh.enable = true;
+  users.users.dan.shell = pkgs.zsh;
 
   services = {
     tailscale = {

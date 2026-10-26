@@ -12,6 +12,9 @@
 
   environment.systemPackages = [pkgs.codex];
 
+  programs.zsh.enable = true;
+  users.users.dan.shell = pkgs.zsh;
+
   hardware.graphics.enable = true;
   hardware.bluetooth.enable = true;
   services.xserver.videoDrivers = ["nvidia"];
