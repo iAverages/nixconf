@@ -236,6 +236,25 @@
           };
         };
 
+        jame = {
+          directPort = 25567;
+          dataPath = "/opt/games/minecraft/jame";
+          storageSize = "20Gi";
+          javaVersion = 17;
+
+          autoRestart = {
+            enable = true;
+            time = "05:00";
+            timeZone = "UTC";
+          };
+          environment = {
+            TYPE = "FORGE";
+            VERSION = "1.20.1";
+            FORGE_VERSION = "47.4.10";
+            MEMORY = "8G";
+          };
+        };
+
         adham = {
           directPort = 25566;
           dataPath = "/opt/games/minecraft/adham";
