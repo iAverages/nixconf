@@ -10,8 +10,7 @@ in {
       settings = {
         logo = {
           type = "kitty-icat";
-          # todo
-          source = "/home/dan/Downloads/kita.webp";
+          source = ../../../assets/kita.webp;
           width = 24;
           height = 24;
         };
