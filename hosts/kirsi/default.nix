@@ -23,7 +23,6 @@
   nix.package = pkgs.lixPackageSets.stable.lix;
 
   boot = {
-    initrd.systemd.enable = true;
     plymouth.enable = true;
     tmp.useTmpfs = true;
     loader = {

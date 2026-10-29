@@ -434,7 +434,6 @@
   boot.initrd = {
     availableKernelModules = ["r8169"];
     systemd = {
-      enable = true;
       services = {
         zfs-initrd-unlock = {
           description = "Unlock ZFS pools in initrd";

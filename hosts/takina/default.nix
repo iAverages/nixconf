@@ -285,7 +285,7 @@
           };
           environment = {
             TYPE = "PAPER";
-            VERSION = "26.2";
+            VERSION = "26.3";
             MEMORY = "10G";
           };
         };
