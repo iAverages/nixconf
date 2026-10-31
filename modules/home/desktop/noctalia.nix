@@ -12,8 +12,8 @@ in {
       settings = {
         settingsVersion = 26;
         appLauncher = {
-          customLaunchPrefix = "";
-          customLaunchPrefixEnabled = false;
+          customLaunchPrefix = "uwsm app --";
+          customLaunchPrefixEnabled = true;
           enableClipPreview = true;
           enableClipboardHistory = false;
           pinnedExecs = [];
