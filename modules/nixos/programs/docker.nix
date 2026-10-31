@@ -13,6 +13,7 @@ in {
       autoPrune.enable = true;
       liveRestore = false;
       extraOptions = "--insecure-registry=\"ctr.dan.local\"";
+      logDriver = "json-file";
     };
     users.users.dan.extraGroups = ["docker"];
     environment.systemPackages = with pkgs; [
