@@ -270,11 +270,11 @@
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1793106313,
-        "narHash": "sha256-0XGKi3RU9GMYy+B+EB24jFeVX4I0iCOjtsgGNlHbtZ4=",
+        "lastModified": 1793576415,
+        "narHash": "sha256-L2mjPuW/8C9LXy1YqtC4QKybyzuih0PELmIblHcbVSA=",
         "owner": "SalahaldinBilal",
         "repo": "fran-db",
-        "rev": "2eead51b4d905812ffb789bffb37091caf28e15c",
+        "rev": "c991b900903df150a0cd5fe13170332148ad468d",
         "type": "github"
       },
       "original": {
