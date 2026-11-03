@@ -32,13 +32,6 @@
         prefixLength = 64;
       }
     ];
-    interfaces.lo.ipv6.routes = [
-      {
-        address = "2001:41d0:e00:7000::";
-        prefixLength = 56;
-        type = "local";
-      }
-    ];
     defaultGateway6 = {
       address = "2001:41d0:801:2000::1";
       interface = "ens3";
