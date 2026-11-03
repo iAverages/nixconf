@@ -163,5 +163,9 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     fran-db.url = "github:SalahaldinBilal/fran-db/stable";
+    abembed = {
+      url = "github:iAverages/abembed/hosted-provider";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 }

@@ -1,11 +1,15 @@
 {
   config,
+  inputs,
   lib,
   modulesPath,
   pkgs,
   ...
 }: {
-  imports = [(modulesPath + "/profiles/qemu-guest.nix")];
+  imports = [
+    (modulesPath + "/profiles/qemu-guest.nix")
+    inputs.abembed.nixosModules.hosted-provider
+  ];
 
   dan = true;
   boot.loader.grub.devices = ["/dev/sda"];
@@ -46,6 +50,20 @@
     };
 
     config-git-deploy.enable = true;
+
+    hosted-provider = {
+      enable = true;
+      environmentFile = config.sops.templates."hosted-provider.env".path;
+    };
+
+    cloudflared = {
+      enable = true;
+      tunnels."14952ecc-1612-4cb7-8df7-bb98d6b1b32b" = {
+        credentialsFile = config.sops.secrets.cloudflared-shuna.path;
+        ingress."shuna.abembed.com" = "http://${config.services.hosted-provider.listen}";
+        default = "http_status:404";
+      };
+    };
     tailscale = {
       enable = true;
       authKeyFile = config.sops.secrets.tailscaleAuthKey.path;
@@ -76,6 +94,12 @@
       "slskd/api_key" = {};
       "slskd/relay_secret" = {};
       "slskd/web_password" = {};
+      hosted-provider-token = {};
+      cloudflared-shuna = {};
+    };
+    templates."hosted-provider.env" = {
+      content = "HOSTED_PROVIDER_TOKEN=${config.sops.placeholder.hosted-provider-token}\n";
+      restartUnits = ["hosted-provider.service"];
     };
     templates."slskd-controller.yml" = {
       owner = "slskd";
