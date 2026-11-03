@@ -10,7 +10,7 @@ in {
 
     url = lib.mkOption {
       type = lib.types.str;
-      default = "https://github.com/iAverages/homelab";
+      default = "https://github.com/iAverages/nixconf";
     };
     branch = lib.mkOption {
       type = lib.types.str;
