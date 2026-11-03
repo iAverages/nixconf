@@ -26,6 +26,16 @@
     hostName = "shuna";
     useDHCP = true;
     nameservers = ["1.1.1.1" "1.0.0.1"];
+    interfaces.ens3.ipv6.addresses = [
+      {
+        address = "2001:41d0:801:2000::7c19";
+        prefixLength = 64;
+      }
+    ];
+    defaultGateway6 = {
+      address = "2001:41d0:801:2000::1";
+      interface = "ens3";
+    };
     firewall = {
       trustedInterfaces = lib.mkForce ["lo"];
       allowedUDPPorts = lib.mkForce [];
