@@ -157,6 +157,56 @@
     ];
   };
 
+  systemd.services.unit-watchdog = let
+    expected = [
+      "k3s.service"
+      "tailscaled.service"
+      "sshd.service"
+      "dhcpcd.service"
+      "firewall.service"
+      "zfs-mount.service"
+      "zfs-zed.service"
+      "local-fs.target"
+      "borgbackup-job-daily.timer"
+    ];
+  in {
+    path = [pkgs.curl pkgs.jq pkgs.systemd];
+    serviceConfig = {
+      Type = "oneshot";
+      StateDirectory = "unit-watchdog";
+    };
+    script = ''
+      down=""
+      for u in ${toString expected}; do
+        systemctl is-active --quiet "$u" || down="$down $u"
+      done
+
+      state=/var/lib/unit-watchdog/down
+      last="$(cat "$state" 2>/dev/null || true)"
+      [ "$down" = "$last" ] && exit 0
+
+      if [ -n "$down" ]; then
+        msg="takina not running:$down"
+      else
+        msg="takina: all services running again"
+      fi
+
+      jq -n --arg content "$msg" '{content: $content}' \
+        | curl -fsS -m 10 --retry 3 -H "Content-Type: application/json" -d @- \
+          "$(cat ${config.sops.secrets.discordWebhookUrl.path})"
+
+      printf '%s' "$down" > "$state"
+    '';
+  };
+
+  systemd.timers.unit-watchdog = {
+    wantedBy = ["timers.target"];
+    timerConfig = {
+      OnBootSec = "2m";
+      OnUnitActiveSec = "5m";
+    };
+  };
+
   homelab = {
     enable = true;
     domain = "kirsi.dev";
