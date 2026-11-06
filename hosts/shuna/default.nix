@@ -8,41 +8,51 @@
 }: {
   imports = [
     (modulesPath + "/profiles/qemu-guest.nix")
+    ./disko.nix
     inputs.abembed.nixosModules.hosted-provider
   ];
 
   dan = true;
-  boot.loader.grub.devices = ["/dev/sda"];
-  fileSystems."/" = {
-    device = "/dev/sda1";
-    fsType = "ext4";
-  };
-  fileSystems."/boot" = {
-    device = "/dev/disk/by-uuid/dc3f3fca-9fbd-4c1a-abcb-a91bd9bcad82";
-    fsType = "ext4";
+  boot.loader.grub = {
+    efiSupport = true;
+    efiInstallAsRemovable = true;
   };
 
   networking = {
     hostName = "shuna";
-    useDHCP = true;
-    nameservers = ["1.1.1.1" "1.0.0.1"];
-    interfaces.ens3.ipv6.addresses = [
-      {
-        address = "2001:41d0:801:2000::7c19";
-        prefixLength = 64;
-      }
-    ];
-    defaultGateway6 = {
-      address = "2001:41d0:801:2000::1";
-      interface = "ens3";
-    };
+    useDHCP = false;
+    useNetworkd = true;
+    nameservers = ["2606:4700:4700::1111" "2606:4700:4700::1001" "1.1.1.1"];
     firewall = {
       trustedInterfaces = lib.mkForce ["lo"];
+      allowedTCPPorts = [50300];
       allowedUDPPorts = lib.mkForce [];
-      interfaces = {
-        ens3.allowedTCPPorts = [50300];
-        tailscale0.allowedTCPPorts = [22 5030];
+      interfaces.tailscale0.allowedTCPPorts = [22 5030];
+    };
+    wg-quick.interfaces.wg0.configFile = config.sops.secrets."wireguard/conf".path;
+  };
+
+  systemd.network = {
+    enable = true;
+    networks."10-wan" = {
+      matchConfig.Name = "en*";
+      address = ["2a01:4f9:c015:e6ec::1/64"];
+      routes = [{Gateway = "fe80::1";}];
+      # wg.conf puts its routes in this table, so only sockets bound to wg0 use the tunnel.
+      # lives here because networkd removes rules it doesn't manage
+      routingPolicyRules = [
+        {
+          OutgoingInterface = "wg0";
+          Table = 51820;
+          Priority = 20000;
+          Family = "both";
+        }
+      ];
+      networkConfig = {
+        DHCP = "ipv4";
+        IPv6AcceptRA = false;
       };
+      linkConfig.RequiredForOnline = "routable";
     };
   };
 
@@ -63,6 +73,7 @@
 
     hosted-provider = {
       enable = true;
+      interface = "wg0";
       environmentFile = config.sops.templates."hosted-provider.env".path;
     };
 
@@ -98,7 +109,7 @@
     age.sshKeyPaths = ["/root/.ssh/shuna_ed25519"];
     secrets = {
       tailscaleAuthKey = {};
-      danPassword = {};
+      danPassword.neededForUsers = true;
       "slskd/username" = {};
       "slskd/password" = {};
       "slskd/api_key" = {};
@@ -106,6 +117,11 @@
       "slskd/web_password" = {};
       hosted-provider-token = {};
       cloudflared-shuna = {};
+      "wireguard/conf" = {
+        format = "binary";
+        sopsFile = ./secrets/wg.conf;
+        restartUnits = ["wg-quick-wg0.service"];
+      };
     };
     templates."hosted-provider.env" = {
       content = "HOSTED_PROVIDER_TOKEN=${config.sops.placeholder.hosted-provider-token}\n";

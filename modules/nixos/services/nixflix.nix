@@ -55,7 +55,7 @@ in {
 
           [Slskd]
           api_key = ${config.sops.placeholder."slskd/api_key"}
-          host_url = http://100.68.250.71:5030
+          host_url = http://shuna:5030
           url_base = /
           download_dir = /downloads
           delete_searches = False
