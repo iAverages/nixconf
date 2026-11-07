@@ -220,6 +220,7 @@
       borgRepo = {};
       borgRepoKey = {};
       "garage/adminToken" = {};
+      "cloudflare-tunnel/credentials" = {};
       tlsCrt = {
         format = "binary";
         sopsFile = ./secrets/ssl/dan-lan.pem;
@@ -316,6 +317,17 @@
     paperless.enable = true;
     glance.enable = true;
     home-assistant.enable = true;
+    cloudflare-tunnel = {
+      enable = true;
+      tunnelName = "kurumi";
+      secretsConfig = config.sops.placeholder."cloudflare-tunnel/credentials";
+      ingress = [
+        {
+          hostname = "home.danielraybone.com";
+          service = "http://home-assistant.home-assistant.svc.cluster.local:8123";
+        }
+      ];
+    };
     zigbee2mqtt = {
       enable = true;
       zigbeeDevice = "/dev/serial/by-id/usb-ITead_Sonoff_Zigbee_3.0_USB_Dongle_Plus_bae0aa2ac8a3ef11b8174cbd61ce3355-if00-port0";

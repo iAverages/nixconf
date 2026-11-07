@@ -25,6 +25,12 @@ creation_rules:
           - *kirsi
           - *kirsi-wsl
 
+  - path_regex: hosts/kirsi
+    key_groups:
+      - age:
+          - *kirsi
+          - *kirsi-wsl
+
   - path_regex: hosts/kurumi/secrets/.*
     key_groups:
       - age:

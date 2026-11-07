@@ -1,4 +1,8 @@
-{config, ...}: {
+{
+  config,
+  pkgs,
+  ...
+}: {
   home = {
     username = "dan";
     homeDirectory = "/home/dan";
@@ -11,7 +15,30 @@
       sshKeyPaths = ["${config.home.homeDirectory}/.ssh/kirsi_ed25519"];
       keyFile = "${config.home.homeDirectory}/.config/sops/age/keys.txt";
     };
-    secrets.avrgApiToken = {};
+    secrets = {
+      avrgApiToken = {};
+      kirsi-mtls = {
+        format = "binary";
+        sopsFile = ./secrets/kirsi.p12;
+      };
+    };
+  };
+
+  systemd.user.services.import-mtls-cert = {
+    Unit = {
+      After = ["sops-nix.service"];
+      Requires = ["sops-nix.service"];
+    };
+    Install.WantedBy = ["default.target"];
+    Service = {
+      Type = "oneshot";
+      ExecStart = toString (pkgs.writeShellScript "import-mtls-cert" ''
+        dir=$HOME/.pki/nssdb
+        mkdir -p "$dir"
+        [ -f "$dir/cert9.db" ] || ${pkgs.nss.tools}/bin/certutil -N -d "sql:$dir" --empty-password
+        ${pkgs.nss.tools}/bin/pk12util -i ${config.sops.secrets.kirsi-mtls.path} -d "sql:$dir" -W ""
+      '');
+    };
   };
 
   desktop.hyprland = {
