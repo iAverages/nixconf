@@ -7,6 +7,7 @@
 }: {
   imports = [
     ./hardware-configuration.nix
+    inputs.fran-db.nixosModules.default
   ];
 
   networking.hostName = "kirsi";
@@ -69,6 +70,10 @@
   };
 
   programs = {
+    fran = {
+      enable = true;
+      vpnService.enable = true;
+    };
     zsh.enable = true;
     dconf.enable = true;
     hyprland.enable = true;
