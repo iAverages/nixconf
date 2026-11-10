@@ -13,8 +13,10 @@ in {
       remotePlay.openFirewall = true;
       dedicatedServer.openFirewall = true;
       localNetworkGameTransfers.openFirewall = true;
-      extraCompatPackages = [pkgs.proton-ge-bin];
+      extraCompatPackages = [pkgs.proton-ge-bin pkgs.dwproton-bin];
     };
+
+    boot.kernelModules = ["ntsync"];
 
     programs.gamemode.enable = true;
     programs.gamescope.enable = true;
