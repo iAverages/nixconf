@@ -190,6 +190,8 @@
     '';
   };
 
+  systemd.services.zfs-mount.after = ["opt-data.mount" "opt-backups.mount"];
+
   sops = {
     defaultSopsFile = ./secrets/secrets.yaml;
     secrets = {
@@ -446,30 +448,7 @@
   boot.initrd = {
     availableKernelModules = ["r8169"];
     systemd = {
-      services = {
-        zfs-initrd-unlock = {
-          description = "Unlock ZFS pools in initrd";
-          after = ["network-online.target" "sshd.service"];
-          before = ["zfs-import-zroot.service"];
-          serviceConfig = {
-            Type = "oneshot";
-            RemainAfterExit = true;
-          };
-          script = ''
-            cat <<EOF > /root/.profile
-            if pgrep -x "zfs" > /dev/null
-            then
-              zpool import -a
-              zfs load-key -a
-              killall zfs
-            else
-              echo "zfs not running -- maybe the pool is taking some time to load for some unforseen reason."
-            fi
-            EOF
-          '';
-          wantedBy = ["initrd.target"];
-        };
-      };
+      users.root.shell = "/bin/systemd-tty-ask-password-agent";
       network = {enable = true;};
     };
     network = {
