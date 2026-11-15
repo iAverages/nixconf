@@ -290,7 +290,7 @@
           directPort = 25567;
           dataPath = "/opt/games/minecraft/jame";
           storageSize = "20Gi";
-          javaVersion = 17;
+          javaVersion = 25;
 
           autoRestart = {
             enable = true;
@@ -298,10 +298,9 @@
             timeZone = "UTC";
           };
           environment = {
-            TYPE = "FORGE";
-            VERSION = "1.20.1";
-            FORGE_VERSION = "47.4.10";
-            MEMORY = "8G";
+            TYPE = "PAPER";
+            VERSION = "26.3";
+            MEMORY = "10G";
           };
         };
 
