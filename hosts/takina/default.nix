@@ -76,9 +76,59 @@
           };
         };
       }
+      {
+        apiVersion = "v1";
+        kind = "Namespace";
+        metadata.name = "abembed";
+      }
+      {
+        apiVersion = "source.toolkit.fluxcd.io/v1";
+        kind = "GitRepository";
+        metadata = {
+          name = "abembed";
+          namespace = "flux-system";
+        };
+        spec = {
+          interval = "1m";
+          url = "https://github.com/iAverages/abembed.git";
+          ref.branch = "deploy";
+        };
+      }
+      {
+        apiVersion = "kustomize.toolkit.fluxcd.io/v1";
+        kind = "Kustomization";
+        metadata = {
+          name = "abembed";
+          namespace = "flux-system";
+        };
+        spec = {
+          interval = "5m";
+          retryInterval = "1m";
+          timeout = "5m";
+          path = "./";
+          prune = true;
+          wait = true;
+          sourceRef = {
+            kind = "GitRepository";
+            name = "abembed";
+          };
+        };
+      }
     ];
 
     k3s.secrets = [
+      {
+        metadata = {
+          name = "abembed-api-secrets";
+          namespace = "abembed";
+        };
+        stringData = {
+          B2_BUCKET_ID = config.sops.placeholder."abembed/b2_bucket_id";
+          B2_APPLICATION_KEY_ID = config.sops.placeholder."abembed/b2_application_key_id";
+          B2_APPLICATION_KEY = config.sops.placeholder."abembed/b2_application_key";
+          POSTHOG_API_KEY = config.sops.placeholder."abembed/posthog_api_key";
+        };
+      }
       {
         metadata = {
           name = "deployments-git-auth";
@@ -119,9 +169,10 @@
       # "grafana/username" = {};
       # "grafana/password" = {};
       "discordWebhookUrl" = {};
-      "spqtify/b2_bucket_id" = {};
-      "spqtify/b2_application_key_id" = {};
-      "spqtify/b2_application_key" = {};
+      "abembed/b2_bucket_id" = {};
+      "abembed/b2_application_key_id" = {};
+      "abembed/b2_application_key" = {};
+      "abembed/posthog_api_key" = {};
       mailPassword = {};
       borgRepoKey = {};
       "palworld/jame/admin-password" = {};
