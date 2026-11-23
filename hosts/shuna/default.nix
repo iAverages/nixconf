@@ -173,9 +173,15 @@
     };
   };
 
-  systemd.services.slskd.serviceConfig.ExecStart = lib.mkForce ''
-    ${lib.getExe config.services.slskd.package} --app-dir /var/lib/slskd --config ${config.sops.templates."slskd-controller.yml".path}
-  '';
+  systemd.services.slskd = {
+    environment.XDG_RUNTIME_DIR = "/run/slskd";
+    serviceConfig = {
+      RuntimeDirectory = "slskd";
+      ExecStart = lib.mkForce ''
+        ${lib.getExe config.services.slskd.package} --app-dir /var/lib/slskd --config ${config.sops.templates."slskd-controller.yml".path}
+      '';
+    };
+  };
   systemd.tmpfiles.rules = [
     "d /var/lib/slskd/downloads 0750 slskd slskd -"
     "d /var/lib/slskd/incomplete 0750 slskd slskd -"
