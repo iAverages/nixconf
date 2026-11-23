@@ -164,7 +164,7 @@
     };
     fran-db.url = "github:SalahaldinBilal/fran-db/stable";
     abembed = {
-      url = "github:iAverages/abembed/hosted-provider";
+      url = "github:iAverages/abembed";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
