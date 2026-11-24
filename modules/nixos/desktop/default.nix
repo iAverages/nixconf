@@ -1,6 +1,7 @@
 {
   imports = [
     ./bluetooth.nix
+    ./fctix5.nix
     ./hyprland.nix
     ./kanata.nix
     ./pipewire.nix
