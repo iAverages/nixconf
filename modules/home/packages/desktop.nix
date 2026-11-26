@@ -14,7 +14,6 @@ in {
     home.packages = with pkgs; [
       spotify
       libreoffice
-      obs-studio
       blueman
       bruno
       gparted

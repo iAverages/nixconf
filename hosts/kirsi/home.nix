@@ -41,6 +41,19 @@
     };
   };
 
+  systemd.user.services.obs-replay-buffer = {
+    Unit = {
+      Description = "OBS replay buffer";
+      PartOf = ["graphical-session.target"];
+      After = ["graphical-session.target"];
+    };
+    Service = {
+      ExecStart = "${config.programs.obs-studio.finalPackage}/bin/obs --startreplaybuffer --minimize-to-tray";
+      Restart = "on-failure";
+    };
+    Install.WantedBy = ["graphical-session.target"];
+  };
+
   desktop.hyprland = {
     enable = true;
     applications = [
@@ -112,6 +125,11 @@
     ghostty.enable = true;
     chromium.enable = true;
     vesktop.enable = true;
+    obs-studio = {
+      enable = true;
+      # nvenc needs the nvidia driver
+      package = pkgs.obs-studio.override {cudaSupport = true;};
+    };
     rofi.enable = true;
     waybar.enable = true;
     noctalia.enable = true;
