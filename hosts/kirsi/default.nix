@@ -77,7 +77,7 @@
     zsh.enable = true;
     dconf.enable = true;
     hyprland.enable = true;
-    thunar.enable = true;
+    luciole.enable = true;
     nix-ld.enable = true;
     gnupg.agent.enable = true;
     steam.enable = true;

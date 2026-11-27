@@ -637,6 +637,7 @@ in {
           community_palette = "Oxocarbon";
           mode = "dark";
           source = "builtin";
+          templates.builtin_ids = ["luciole"];
           wallpaper_scheme = "m3-content";
         };
         ui = {

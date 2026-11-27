@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  osConfig,
   pkgs,
   ...
 }: let
@@ -145,7 +146,13 @@ in {
         ];
         # TODO: make these configurable
         terminal = {_var = "${lib.getExe config.programs.ghostty.package}";};
-        fileManager = {_var = "${lib.getExe pkgs.thunar}";};
+        fileManager = {
+          _var = lib.getExe (
+            if osConfig.programs.luciole.enable
+            then osConfig.programs.luciole.package
+            else pkgs.thunar
+          );
+        };
         menu = {_var = "noctalia msg panel-toggle launcher";};
 
         sessionMenu = {_var = "noctalia-shell ipc call sessionMenu toggle";};

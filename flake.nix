@@ -70,6 +70,7 @@
         };
         extraSpecialArgs = {
           inherit inputs hostname;
+          osConfig = inputs.self.nixosConfigurations.${hostname}.config;
         };
         modules = homeModules ++ [./hosts/${hostname}/home.nix];
       };
