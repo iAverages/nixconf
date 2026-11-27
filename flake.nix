@@ -167,5 +167,6 @@
       url = "github:iAverages/abembed";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    luciole.url = "github:noctalia-dev/luciole";
   };
 }
