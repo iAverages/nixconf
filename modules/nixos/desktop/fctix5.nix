@@ -19,7 +19,7 @@
           "Groups/0/Items/1".Name = "mozc";
         };
         globalOptions = {
-          "Hotkey/TriggerKeys"."0" = "Control+space"; # toggle UK <-> Japanese
+          "Hotkey/TriggerKeys"."0" = "Super+space";
         };
       };
     };
