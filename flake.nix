@@ -157,7 +157,6 @@
     };
     mirai = {
       url = "github:iaverages/mirai";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
     visual-diff = {
       url = "git+https://git.kirsi.dev/SLOP/visual-diff";

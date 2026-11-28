@@ -131,7 +131,6 @@
       package = pkgs.obs-studio.override {cudaSupport = true;};
     };
     rofi.enable = true;
-    waybar.enable = true;
     noctalia.enable = true;
     rclone = {
       enable = true;
