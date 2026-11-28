@@ -14,7 +14,6 @@ in {
           name = "iAverages";
           email = "me@danielraybone.com";
         };
-
         aliases = let
           # move x branch to newest change that isnt empty
           move-branch = ["bookmark" "set" "--revision" "(@ ~ empty()) | parents(@ & empty())"];
@@ -47,9 +46,10 @@ in {
         };
 
         git = {
-          sign-on-push = true;
           private-commits = "description('wip:*') | description('private:*')";
         };
+
+        revsets.git-sign-on-push = "~signed() & mine()";
       };
     };
   };
