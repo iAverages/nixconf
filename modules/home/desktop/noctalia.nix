@@ -209,6 +209,7 @@ in {
         };
         shell = {
           avatar_path = "/home/dan/.face";
+          launch_apps_custom_command = "uwsm app -- $CMD";
           polkit_agent = true;
           screen_time_enabled = true;
           time_format = "{:%H:%M:%S}";
